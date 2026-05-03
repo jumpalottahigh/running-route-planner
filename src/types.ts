@@ -17,3 +17,16 @@ export interface GenerateRouteParams {
   unit: 'km' | 'mi'
   profile: 'foot-walking' | 'foot-hiking' | 'cycling-regular'
 }
+
+export interface SavedRoute {
+  id: string
+  name: string
+  distance: number
+  unit: 'km' | 'mi'
+  pace: number
+  profile: 'foot-walking' | 'foot-hiking'
+  startPoint: Position
+  routes: Route[]
+  selectedRouteIndex: number
+  savedAt: number
+}

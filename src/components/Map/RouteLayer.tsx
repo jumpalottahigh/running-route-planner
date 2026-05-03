@@ -32,7 +32,11 @@ function createStartIcon() {
   })
 }
 
-function interpolateColor(startColor: string, endColor: string, factor: number): string {
+function interpolateColor(
+  startColor: string,
+  endColor: string,
+  factor: number
+): string {
   const start = parseInt(startColor.substring(1), 16)
   const end = parseInt(endColor.substring(1), 16)
 
@@ -58,7 +62,10 @@ function createGradientPolylines(
   const latlngs = geoJsonToLatLngs(coordinates)
   const segments: Array<{ positions: [number, number][]; color: string }> = []
 
-  const pointsPerSegment = Math.max(1, Math.floor(latlngs.length / segmentCount))
+  const pointsPerSegment = Math.max(
+    1,
+    Math.floor(latlngs.length / segmentCount)
+  )
 
   for (let i = 0; i < segmentCount; i++) {
     const startIdx = i * pointsPerSegment
@@ -79,8 +86,8 @@ function createGradientPolylines(
 }
 
 interface RouteLayerProps {
-  startPoint: Position | null;
-  route: Route | null;
+  startPoint: Position | null
+  route: Route | null
 }
 
 const RouteLayer: FC<RouteLayerProps> = ({ startPoint, route }) => {
@@ -104,21 +111,25 @@ const RouteLayer: FC<RouteLayerProps> = ({ startPoint, route }) => {
       {route?.coordinates?.length && (
         <>
           {/* Shadow/glow layer with gradient */}
-          {createGradientPolylines(route.coordinates, 25).map((segment, idx) => (
-            <Polyline
-              key={`shadow-${idx}`}
-              positions={segment.positions}
-              pathOptions={{ color: segment.color, weight: 8, opacity: 0.12 }}
-            />
-          ))}
+          {createGradientPolylines(route.coordinates, 25).map(
+            (segment, idx) => (
+              <Polyline
+                key={`shadow-${idx}`}
+                positions={segment.positions}
+                pathOptions={{ color: segment.color, weight: 8, opacity: 0.12 }}
+              />
+            )
+          )}
           {/* Main route line with gradient */}
-          {createGradientPolylines(route.coordinates, 25).map((segment, idx) => (
-            <Polyline
-              key={`main-${idx}`}
-              positions={segment.positions}
-              pathOptions={{ color: segment.color, weight: 3, opacity: 0.9 }}
-            />
-          ))}
+          {createGradientPolylines(route.coordinates, 25).map(
+            (segment, idx) => (
+              <Polyline
+                key={`main-${idx}`}
+                positions={segment.positions}
+                pathOptions={{ color: segment.color, weight: 3, opacity: 0.9 }}
+              />
+            )
+          )}
         </>
       )}
     </>
@@ -126,4 +137,3 @@ const RouteLayer: FC<RouteLayerProps> = ({ startPoint, route }) => {
 }
 
 export default RouteLayer
-
