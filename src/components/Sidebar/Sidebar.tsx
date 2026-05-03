@@ -65,7 +65,7 @@ const Sidebar: FC<SidebarProps> = ({
     <aside className='sidebar'>
       <div className='sidebar-header'>
         <h1 className='logo'>
-          <img src='/favicon.png' alt='RunLoop' className='logo-icon' />
+          <img src='/favicon.svg' alt='RunLoop' className='logo-icon' />
           RunLoop
         </h1>
         <p className='tagline'>Smart circular routes for runners</p>

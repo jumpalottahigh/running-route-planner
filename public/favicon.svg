@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Transparent background (default) -->
+
+  <!-- Main circular route path -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#a78bfa" stroke-width="8" opacity="0.3"/>
+
+  <!-- Runner figure in motion -->
+  <g transform="translate(100, 100)">
+    <!-- Head -->
+    <circle cx="0" cy="-45" r="12" fill="#a78bfa"/>
+
+    <!-- Body -->
+    <path d="M 0 -33 L 0 -5" stroke="#a78bfa" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Left arm (extended back) -->
+    <path d="M 0 -25 L -20 -35" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Right arm (extended forward) -->
+    <path d="M 0 -25 L 20 -15" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Left leg (extended forward) -->
+    <path d="M -5 -5 L -15 20" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Right leg (extended back) -->
+    <path d="M 5 -5 L 15 -20" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Motion lines for speed -->
+    <path d="M -30 -20 L -40 -22" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <path d="M -28 -5 L -42 -5" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  </g>
+</svg>
