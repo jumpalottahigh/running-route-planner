@@ -56,7 +56,8 @@ const Sidebar: FC<SidebarProps> = ({
   const [saveRouteName, setSaveRouteName] = useState('')
 
   const handleSaveRoute = () => {
-    const name = saveRouteName.trim() || `Route ${new Date().toLocaleDateString()}`
+    const name =
+      saveRouteName.trim() || `Route ${new Date().toLocaleDateString()}`
     onSave(name)
     setSaveRouteName('')
     setShowSaveDialog(false)
@@ -65,7 +66,7 @@ const Sidebar: FC<SidebarProps> = ({
     <aside className='sidebar'>
       <div className='sidebar-header'>
         <h1 className='logo'>
-          <img src='/favicon.svg' alt='RunLoop' className='logo-icon' />
+          <img src='/favicon.png' alt='RunLoop' className='logo-icon' />
           RunLoop
         </h1>
         <p className='tagline'>Smart circular routes for runners</p>
@@ -191,10 +192,16 @@ const Sidebar: FC<SidebarProps> = ({
               autoFocus
             />
             <div className='modal-buttons'>
-              <button className='modal-btn modal-btn-cancel' onClick={() => setShowSaveDialog(false)}>
+              <button
+                className='modal-btn modal-btn-cancel'
+                onClick={() => setShowSaveDialog(false)}
+              >
                 Cancel
               </button>
-              <button className='modal-btn modal-btn-save' onClick={handleSaveRoute}>
+              <button
+                className='modal-btn modal-btn-save'
+                onClick={handleSaveRoute}
+              >
                 Save Route
               </button>
             </div>
