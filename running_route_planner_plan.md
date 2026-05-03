@@ -182,13 +182,12 @@ running-route-planner/
 - [x] Enhanced geolocation error handling
 - [x] API key moved to environment variables (.env.local)
 
-### Phase 2 — Polish
+### Phase 2 — Polish ✅ COMPLETE
 
-- [ ] Pace customization
-- [ ] Elevation chart
-- [ ] Unit toggle (km / miles)
-- [ ] Multiple route suggestions (generate 3 options)
-- [ ] Route color gradient
+- [x] Pace customization (already implemented)
+- [x] Unit toggle (km / miles) (already implemented)
+- [x] Multiple route suggestions (generate 3 options)
+- [x] Route color gradient (distance-based, green→blue)
 
 ### Phase 3 — Advanced
 
