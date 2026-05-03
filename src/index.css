@@ -159,6 +159,8 @@ body {
   margin-right: 4px;
   display: inline-block;
   vertical-align: middle;
+  mix-blend-mode: screen;
+  border-radius: 6px;
 }
 
 .tagline {
