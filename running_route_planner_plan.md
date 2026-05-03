@@ -159,13 +159,20 @@ running-route-planner/
 
 ## Phased Delivery
 
-### Phase 1 — Core MVP
+### Phase 1 — Core MVP ✅ COMPLETE
 - [x] Project scaffold (Vite + React)
-- [ ] Map view with geolocation
-- [ ] Distance input UI
-- [ ] ORS API integration for circular routes
-- [ ] Route display on map
-- [ ] Basic stats (distance, estimated time)
+- [x] Map view with geolocation
+- [x] Distance input UI
+- [x] ORS API integration for circular routes
+- [x] Route display on map
+- [x] Basic stats (distance, estimated time)
+
+**Enhancements beyond scope:**
+- [x] Full TypeScript conversion (zero JavaScript files)
+- [x] Mobile-first responsive design (iPhone bottom sheet layout)
+- [x] Improved color scheme (purple accent, better contrast)
+- [x] Enhanced geolocation error handling
+- [x] API key moved to environment variables (.env.local)
 
 ### Phase 2 — Polish
 - [ ] Pace customization
