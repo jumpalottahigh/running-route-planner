@@ -19,12 +19,7 @@ const App: FC = () => {
     clearRoute
   } = useRoute()
 
-  const {
-    savedRoutes,
-    saveRoute,
-    loadRoute,
-    deleteRoute
-  } = useSavedRoutes()
+  const { savedRoutes, saveRoute, loadRoute, deleteRoute } = useSavedRoutes()
 
   const route = routes ? routes[selectedRouteIndex] : null
 
@@ -169,7 +164,16 @@ const App: FC = () => {
       saveRoute(savedRoute)
       alert(`Route "${name}" saved!`)
     },
-    [routes, startPoint, distance, unit, pace, profile, selectedRouteIndex, saveRoute]
+    [
+      routes,
+      startPoint,
+      distance,
+      unit,
+      pace,
+      profile,
+      selectedRouteIndex,
+      saveRoute
+    ]
   )
 
   const handleLoadSavedRoute = useCallback(

@@ -47,9 +47,12 @@ export function useSavedRoutes(): UseSavedRoutesReturn {
     }
   }, [])
 
-  const loadRoute = useCallback((id: string): SavedRoute | null => {
-    return savedRoutes.find((r) => r.id === id) || null
-  }, [savedRoutes])
+  const loadRoute = useCallback(
+    (id: string): SavedRoute | null => {
+      return savedRoutes.find((r) => r.id === id) || null
+    },
+    [savedRoutes]
+  )
 
   const deleteRoute = useCallback((id: string) => {
     try {

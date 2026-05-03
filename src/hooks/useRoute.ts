@@ -74,11 +74,14 @@ export function useRoute(): UseRouteReturn {
     }
   }, [])
 
-  const selectRoute = useCallback((index: number) => {
-    if (routes && index >= 0 && index < routes.length) {
-      setSelectedRouteIndex(index)
-    }
-  }, [routes])
+  const selectRoute = useCallback(
+    (index: number) => {
+      if (routes && index >= 0 && index < routes.length) {
+        setSelectedRouteIndex(index)
+      }
+    },
+    [routes]
+  )
 
   const clearRoute = useCallback(() => {
     setRoutes(null)

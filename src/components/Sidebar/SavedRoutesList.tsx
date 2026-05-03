@@ -20,36 +20,44 @@ function formatDate(timestamp: number): string {
   return `${days}d ago`
 }
 
-const SavedRoutesList: FC<SavedRoutesListProps> = ({ routes, onLoad, onDelete }) => {
+const SavedRoutesList: FC<SavedRoutesListProps> = ({
+  routes,
+  onLoad,
+  onDelete
+}) => {
   if (routes.length === 0) {
     return null
   }
 
   return (
-    <div className="saved-routes-list">
-      <h3 className="saved-routes-title">📌 Saved Routes ({routes.length})</h3>
-      <div className="saved-routes-items">
+    <div className='saved-routes-list'>
+      <h3 className='saved-routes-title'>📌 Saved Routes ({routes.length})</h3>
+      <div className='saved-routes-items'>
         {routes.map((route) => (
-          <div key={route.id} className="saved-route-item">
-            <div className="saved-route-info">
-              <p className="saved-route-name">{route.name}</p>
-              <div className="saved-route-meta">
-                <span className="saved-route-distance">{route.distance} {route.unit}</span>
-                <span className="saved-route-date">{formatDate(route.savedAt)}</span>
+          <div key={route.id} className='saved-route-item'>
+            <div className='saved-route-info'>
+              <p className='saved-route-name'>{route.name}</p>
+              <div className='saved-route-meta'>
+                <span className='saved-route-distance'>
+                  {route.distance} {route.unit}
+                </span>
+                <span className='saved-route-date'>
+                  {formatDate(route.savedAt)}
+                </span>
               </div>
             </div>
-            <div className="saved-route-actions">
+            <div className='saved-route-actions'>
               <button
-                className="saved-route-btn saved-route-load"
+                className='saved-route-btn saved-route-load'
                 onClick={() => onLoad(route)}
-                title="Load this route"
+                title='Load this route'
               >
                 ✓
               </button>
               <button
-                className="saved-route-btn saved-route-delete"
+                className='saved-route-btn saved-route-delete'
                 onClick={() => onDelete(route.id)}
-                title="Delete this route"
+                title='Delete this route'
               >
                 ✕
               </button>
