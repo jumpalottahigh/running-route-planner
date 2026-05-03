@@ -1,0 +1,25 @@
+{
+  "name": "RunLoop — Smart Circular Routes for Runners",
+  "short_name": "RunLoop",
+  "description": "Generate random circular running routes based on distance and pace",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#a78bfa",
+  "background_color": "#0a0e14",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
