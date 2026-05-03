@@ -1,18 +1,21 @@
 import { useState, useCallback } from 'react'
-import { generateCircularRoute } from '../services/routeService'
+import { generateMultipleRoutes } from '../services/routeService'
 import { distanceToMeters } from '../utils/formatUtils'
 
 interface UseRouteReturn {
-  route: Route | null
+  routes: Route[] | null
+  selectedRouteIndex: number
   loading: boolean
   error: string | null
   generate: (params: GenerateRouteParams) => Promise<void>
   regenerate: (params: GenerateRouteParams) => Promise<void>
+  selectRoute: (index: number) => void
   clearRoute: () => void
 }
 
 export function useRoute(): UseRouteReturn {
-  const [route, setRoute] = useState<Route | null>(null)
+  const [routes, setRoutes] = useState<Route[] | null>(null)
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [seed, setSeed] = useState(Math.floor(Math.random() * 9999))
@@ -21,19 +24,23 @@ export function useRoute(): UseRouteReturn {
     async ({ lat, lng, distance, unit, profile }: GenerateRouteParams) => {
       setLoading(true)
       setError(null)
+      setSelectedRouteIndex(0)
       try {
         const distanceMeters = distanceToMeters(distance, unit)
-        const result = await generateCircularRoute({
-          lat,
-          lng,
-          distanceMeters,
-          seed,
-          profile
-        })
-        setRoute(result)
+        const results = await generateMultipleRoutes(
+          {
+            lat,
+            lng,
+            distanceMeters,
+            seed,
+            profile
+          },
+          3
+        )
+        setRoutes(results)
       } catch (err) {
         setError((err as Error).message || 'Failed to generate route')
-        setRoute(null)
+        setRoutes(null)
       } finally {
         setLoading(false)
       }
@@ -46,16 +53,20 @@ export function useRoute(): UseRouteReturn {
     setSeed(newSeed)
     setLoading(true)
     setError(null)
+    setSelectedRouteIndex(0)
     try {
       const distanceMeters = distanceToMeters(params.distance, params.unit)
-      const result = await generateCircularRoute({
-        lat: params.lat,
-        lng: params.lng,
-        distanceMeters,
-        seed: newSeed,
-        profile: params.profile
-      })
-      setRoute(result)
+      const results = await generateMultipleRoutes(
+        {
+          lat: params.lat,
+          lng: params.lng,
+          distanceMeters,
+          seed: newSeed,
+          profile: params.profile
+        },
+        3
+      )
+      setRoutes(results)
     } catch (err) {
       setError((err as Error).message || 'Failed to regenerate route')
     } finally {
@@ -63,10 +74,26 @@ export function useRoute(): UseRouteReturn {
     }
   }, [])
 
+  const selectRoute = useCallback((index: number) => {
+    if (routes && index >= 0 && index < routes.length) {
+      setSelectedRouteIndex(index)
+    }
+  }, [routes])
+
   const clearRoute = useCallback(() => {
-    setRoute(null)
+    setRoutes(null)
+    setSelectedRouteIndex(0)
     setError(null)
   }, [])
 
-  return { route, loading, error, generate, regenerate, clearRoute }
+  return {
+    routes,
+    selectedRouteIndex,
+    loading,
+    error,
+    generate,
+    regenerate,
+    selectRoute,
+    clearRoute
+  }
 }

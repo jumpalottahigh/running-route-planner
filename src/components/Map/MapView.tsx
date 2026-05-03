@@ -1,37 +1,38 @@
-import { useEffect, useRef } from 'react';
-import type { FC } from 'react';
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
-import RouteLayer from './RouteLayer';
+import { useEffect, useRef } from 'react'
+import type { FC } from 'react'
+import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import L from 'leaflet'
+import RouteLayer from './RouteLayer'
 
 // Fix Leaflet default icon paths broken by bundlers
-delete L.Icon.Default.prototype._getIconUrl;
+delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconRetinaUrl:
+    'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-});
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
+})
 
 interface ClickHandlerProps {
-  onMapClick: (position: Position) => void;
+  onMapClick: (position: Position) => void
 }
 
 function ClickHandler({ onMapClick }: ClickHandlerProps): null {
   useMapEvents({
     click(e) {
-      onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng });
-    },
-  });
-  return null;
+      onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng })
+    }
+  })
+  return null
 }
 
 interface RecenterMapProps {
-  center: Position;
+  center: Position
 }
 
 function RecenterMap({ center }: RecenterMapProps): null {
-  const map = useMap();
-  const prevCenter = useRef<Position | null>(null);
+  const map = useMap()
+  const prevCenter = useRef<Position | null>(null)
   useEffect(() => {
     if (
       center &&
@@ -39,26 +40,26 @@ function RecenterMap({ center }: RecenterMapProps): null {
         prevCenter.current.lat !== center.lat ||
         prevCenter.current.lng !== center.lng)
     ) {
-      map.setView([center.lat, center.lng], map.getZoom(), { animate: true });
-      prevCenter.current = center;
+      map.setView([center.lat, center.lng], map.getZoom(), { animate: true })
+      prevCenter.current = center
     }
-  }, [center, map]);
-  return null;
+  }, [center, map])
+  return null
 }
 
 interface MapViewProps {
-  startPoint: Position | null;
-  onMapClick: (position: Position) => void;
-  route: Route | null;
+  startPoint: Position | null
+  onMapClick: (position: Position) => void
+  route: Route | null
 }
 
 const MapView: FC<MapViewProps> = ({ startPoint, onMapClick, route }) => {
   const defaultCenter = startPoint
     ? [startPoint.lat, startPoint.lng]
-    : [51.505, -0.09];
+    : [51.505, -0.09]
 
   return (
-    <div className="map-container">
+    <div className='map-container'>
       <MapContainer
         center={defaultCenter}
         zoom={14}
@@ -67,7 +68,7 @@ const MapView: FC<MapViewProps> = ({ startPoint, onMapClick, route }) => {
       >
         <TileLayer
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
           maxZoom={20}
         />
         {startPoint && <RecenterMap center={startPoint} />}
@@ -76,12 +77,12 @@ const MapView: FC<MapViewProps> = ({ startPoint, onMapClick, route }) => {
       </MapContainer>
 
       {!startPoint && (
-        <div className="map-hint">
+        <div className='map-hint'>
           📍 Click anywhere on the map to set your start point
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default MapView;
+export default MapView

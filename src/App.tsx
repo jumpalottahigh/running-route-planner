@@ -6,7 +6,18 @@ import { useRoute } from './hooks/useRoute'
 
 const App: FC = () => {
   const { position } = useGeolocation()
-  const { route, loading, error, generate, regenerate, clearRoute } = useRoute()
+  const {
+    routes,
+    selectedRouteIndex,
+    loading,
+    error,
+    generate,
+    regenerate,
+    selectRoute,
+    clearRoute
+  } = useRoute()
+
+  const route = routes ? routes[selectedRouteIndex] : null
 
   const [startPoint, setStartPoint] = useState<Position | null>(null)
   const [distance, setDistance] = useState(5)
@@ -69,13 +80,15 @@ const App: FC = () => {
   )
 
   return (
-    <div className="app-layout">
+    <div className='app-layout'>
       <Sidebar
         distance={distance}
         unit={unit}
         pace={pace}
         profile={profile}
         route={route}
+        routes={routes}
+        selectedRouteIndex={selectedRouteIndex}
         loading={loading}
         error={error}
         onDistanceChange={setDistance}
@@ -84,6 +97,7 @@ const App: FC = () => {
         onProfileChange={setProfile}
         onGenerate={handleGenerate}
         onRegenerate={handleRegenerate}
+        onSelectRoute={selectRoute}
       />
       <MapView
         startPoint={startPoint}

@@ -9,6 +9,8 @@ interface SidebarProps {
   pace: number;
   profile: 'foot-walking' | 'foot-hiking';
   route: Route | null;
+  routes: Route[] | null;
+  selectedRouteIndex: number;
   loading: boolean;
   error: string | null;
   onDistanceChange: (distance: number) => void;
@@ -17,6 +19,7 @@ interface SidebarProps {
   onProfileChange: (profile: 'foot-walking' | 'foot-hiking') => void;
   onGenerate: () => void;
   onRegenerate: () => void;
+  onSelectRoute: (index: number) => void;
 }
 
 const Sidebar: FC<SidebarProps> = ({
@@ -25,6 +28,8 @@ const Sidebar: FC<SidebarProps> = ({
   pace,
   profile,
   route,
+  routes,
+  selectedRouteIndex,
   loading,
   error,
   onDistanceChange,
@@ -33,6 +38,7 @@ const Sidebar: FC<SidebarProps> = ({
   onProfileChange,
   onGenerate,
   onRegenerate,
+  onSelectRoute,
 }) => {
   return (
     <aside className="sidebar">
@@ -92,6 +98,26 @@ const Sidebar: FC<SidebarProps> = ({
           <div className="error-banner">
             <span>⚠️</span>
             <span>{error}</span>
+          </div>
+        )}
+
+        {routes && routes.length > 0 && (
+          <div className="route-selector">
+            <p className="route-selector-label">Choose a route:</p>
+            <div className="route-options">
+              {routes.map((r, idx) => (
+                <button
+                  key={idx}
+                  className={`route-option ${selectedRouteIndex === idx ? 'selected' : ''}`}
+                  onClick={() => onSelectRoute(idx)}
+                >
+                  <span className="route-number">{idx + 1}</span>
+                  <span className="route-info">
+                    {(r.distanceMeters / 1000).toFixed(1)} km
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         )}
 

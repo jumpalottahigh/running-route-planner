@@ -16,26 +16,16 @@ interface RouteResult {
   geojson: any
 }
 
-export async function generateCircularRoute({
-  lat,
-  lng,
-  distanceMeters,
-  seed,
-  profile = 'foot-walking'
-}: GenerateRouteInput): Promise<RouteResult> {
-  if (!ORS_API_KEY || !ORS_API_KEY.trim()) {
-    throw new Error('API key not configured. Check your .env.local file.')
-  }
-
-  const url = `${ORS_BASE}/directions/${profile}/geojson`
+async function fetchRoute(input: GenerateRouteInput): Promise<RouteResult> {
+  const url = `${ORS_BASE}/directions/${input.profile}/geojson`
 
   const body = {
-    coordinates: [[lng, lat]],
+    coordinates: [[input.lng, input.lat]],
     options: {
       round_trip: {
-        length: Math.round(distanceMeters),
+        length: Math.round(input.distanceMeters),
         points: 3,
-        seed: seed
+        seed: input.seed
       }
     },
     instructions: false
@@ -78,4 +68,34 @@ export async function generateCircularRoute({
     durationSeconds: summary?.duration ?? 0,
     geojson: feature
   }
+}
+
+export async function generateCircularRoute(
+  input: GenerateRouteInput
+): Promise<RouteResult> {
+  if (!ORS_API_KEY || !ORS_API_KEY.trim()) {
+    throw new Error('API key not configured. Check your .env.local file.')
+  }
+
+  return fetchRoute(input)
+}
+
+export async function generateMultipleRoutes(
+  input: GenerateRouteInput,
+  count: number = 3
+): Promise<RouteResult[]> {
+  if (!ORS_API_KEY || !ORS_API_KEY.trim()) {
+    throw new Error('API key not configured. Check your .env.local file.')
+  }
+
+  const routes = await Promise.all(
+    Array.from({ length: count }).map((_, i) =>
+      fetchRoute({
+        ...input,
+        seed: input.seed + i * 1000
+      })
+    )
+  )
+
+  return routes
 }

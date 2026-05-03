@@ -28,7 +28,8 @@ export function useGeolocation(): UseGeolocationReturn {
         console.warn('Geolocation error:', err.message)
         let message = err.message
         if (err.code === 1) {
-          message = 'Location permission denied. Tap the map to set your start point.'
+          message =
+            'Location permission denied. Tap the map to set your start point.'
         } else if (err.code === 2) {
           message = 'Unable to retrieve location. Check your connection.'
         } else if (err.code === 3) {

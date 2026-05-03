@@ -27,10 +27,7 @@ export function formatDuration(totalSeconds: number): string {
   return `${m}:${String(s).padStart(2, '0')}`
 }
 
-export function estimateDuration(
-  meters: number,
-  paceMinPerKm: number
-): string {
+export function estimateDuration(meters: number, paceMinPerKm: number): string {
   const km = meters / 1000
   const totalMinutes = km * paceMinPerKm
   return formatDuration(totalMinutes * 60)
