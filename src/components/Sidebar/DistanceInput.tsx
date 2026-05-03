@@ -1,13 +1,28 @@
+import type { FC, ChangeEvent } from 'react';
+
 const PRESETS_KM = [3, 5, 10, 21, 42];
 const PRESETS_MI = [2, 3, 6, 13, 26];
 
-export default function DistanceInput({ distance, unit, onChange, onUnitChange }) {
+interface DistanceInputProps {
+  distance: number;
+  unit: 'km' | 'mi';
+  onChange: (distance: number) => void;
+  onUnitChange: (unit: 'km' | 'mi') => void;
+}
+
+const DistanceInput: FC<DistanceInputProps> = ({
+  distance,
+  unit,
+  onChange,
+  onUnitChange,
+}) => {
   const presets = unit === 'km' ? PRESETS_KM : PRESETS_MI;
   const max = unit === 'km' ? 42 : 26;
   const min = unit === 'km' ? 1 : 0.5;
 
-  const handleSlider = (e) => onChange(parseFloat(e.target.value));
-  const handleNumber = (e) => {
+  const handleSlider = (e: ChangeEvent<HTMLInputElement>) =>
+    onChange(parseFloat(e.target.value));
+  const handleNumber = (e: ChangeEvent<HTMLInputElement>) => {
     const val = parseFloat(e.target.value);
     if (!isNaN(val) && val >= min && val <= max) onChange(val);
   };
@@ -20,11 +35,15 @@ export default function DistanceInput({ distance, unit, onChange, onUnitChange }
           <button
             className={`unit-btn${unit === 'km' ? ' active' : ''}`}
             onClick={() => onUnitChange('km')}
-          >km</button>
+          >
+            km
+          </button>
           <button
             className={`unit-btn${unit === 'mi' ? ' active' : ''}`}
             onClick={() => onUnitChange('mi')}
-          >mi</button>
+          >
+            mi
+          </button>
         </div>
       </div>
 
@@ -52,7 +71,7 @@ export default function DistanceInput({ distance, unit, onChange, onUnitChange }
           value={distance}
           onChange={handleSlider}
           aria-label="Distance slider"
-          style={{ '--pct': `${((distance - min) / (max - min)) * 100}%` }}
+          style={{ '--pct': `${((distance - min) / (max - min)) * 100}%` } as React.CSSProperties}
         />
       </div>
 
@@ -63,10 +82,14 @@ export default function DistanceInput({ distance, unit, onChange, onUnitChange }
             className={`preset-btn${distance === p ? ' active' : ''}`}
             onClick={() => onChange(p)}
           >
-            {p}{unit}
+            {p}
+            {unit}
           </button>
         ))}
       </div>
     </div>
   );
-}
+};
+
+export default DistanceInput;
+

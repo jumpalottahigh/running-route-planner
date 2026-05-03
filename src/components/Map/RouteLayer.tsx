@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import type { FC } from 'react'
 import { Marker, Polyline, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { geoJsonToLatLngs } from '../../utils/geoUtils'
@@ -31,7 +32,12 @@ function createStartIcon() {
   })
 }
 
-export default function RouteLayer({ startPoint, route }) {
+interface RouteLayerProps {
+  startPoint: Position | null;
+  route: Route | null;
+}
+
+const RouteLayer: FC<RouteLayerProps> = ({ startPoint, route }) => {
   const map = useMap()
 
   useEffect(() => {
@@ -66,3 +72,6 @@ export default function RouteLayer({ startPoint, route }) {
     </>
   )
 }
+
+export default RouteLayer
+

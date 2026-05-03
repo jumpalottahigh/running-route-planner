@@ -1,14 +1,39 @@
+import type { FC, ChangeEvent } from 'react';
 import { formatPace } from '../../utils/formatUtils';
 
-const PROFILES = [
+interface Profile {
+  value: 'foot-walking' | 'foot-hiking';
+  label: string;
+}
+
+const PROFILES: Profile[] = [
   { value: 'foot-walking', label: '🚶 Walking/Road' },
   { value: 'foot-hiking', label: '🥾 Trail/Hiking' },
 ];
 
-export default function PaceSettings({ pace, unit, profile, onPaceChange, onProfileChange }) {
+interface PaceSettingsProps {
+  pace: number;
+  unit: 'km' | 'mi';
+  profile: 'foot-walking' | 'foot-hiking';
+  onPaceChange: (pace: number) => void;
+  onProfileChange: (profile: 'foot-walking' | 'foot-hiking') => void;
+}
+
+const PaceSettings: FC<PaceSettingsProps> = ({
+  pace,
+  unit,
+  profile,
+  onPaceChange,
+  onProfileChange,
+}) => {
   const step = 0.5;
   const min = 2.5;
   const max = 12;
+
+  const handleProfileChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value as 'foot-walking' | 'foot-hiking';
+    onProfileChange(value);
+  };
 
   return (
     <div className="card">
@@ -21,7 +46,9 @@ export default function PaceSettings({ pace, unit, profile, onPaceChange, onProf
             className="pace-btn"
             onClick={() => onPaceChange(Math.max(min, pace - step))}
             aria-label="Decrease pace"
-          >−</button>
+          >
+            −
+          </button>
           <span className="pace-value">
             {formatPace(pace, unit)}
             <span className="pace-unit-label">/{unit}</span>
@@ -30,7 +57,9 @@ export default function PaceSettings({ pace, unit, profile, onPaceChange, onProf
             className="pace-btn"
             onClick={() => onPaceChange(Math.min(max, pace + step))}
             aria-label="Increase pace"
-          >+</button>
+          >
+            +
+          </button>
         </div>
       </div>
 
@@ -40,15 +69,20 @@ export default function PaceSettings({ pace, unit, profile, onPaceChange, onProf
           <select
             className="profile-select"
             value={profile}
-            onChange={(e) => onProfileChange(e.target.value)}
+            onChange={handleProfileChange}
             aria-label="Route surface type"
           >
             {PROFILES.map((p) => (
-              <option key={p.value} value={p.value}>{p.label}</option>
+              <option key={p.value} value={p.value}>
+                {p.label}
+              </option>
             ))}
           </select>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default PaceSettings;
+

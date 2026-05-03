@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type { FC } from 'react';
 import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import RouteLayer from './RouteLayer';
@@ -11,7 +12,11 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-function ClickHandler({ onMapClick }) {
+interface ClickHandlerProps {
+  onMapClick: (position: Position) => void;
+}
+
+function ClickHandler({ onMapClick }: ClickHandlerProps): null {
   useMapEvents({
     click(e) {
       onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng });
@@ -20,9 +25,13 @@ function ClickHandler({ onMapClick }) {
   return null;
 }
 
-function RecenterMap({ center }) {
+interface RecenterMapProps {
+  center: Position;
+}
+
+function RecenterMap({ center }: RecenterMapProps): null {
   const map = useMap();
-  const prevCenter = useRef(null);
+  const prevCenter = useRef<Position | null>(null);
   useEffect(() => {
     if (
       center &&
@@ -37,7 +46,13 @@ function RecenterMap({ center }) {
   return null;
 }
 
-export default function MapView({ startPoint, onMapClick, route }) {
+interface MapViewProps {
+  startPoint: Position | null;
+  onMapClick: (position: Position) => void;
+  route: Route | null;
+}
+
+const MapView: FC<MapViewProps> = ({ startPoint, onMapClick, route }) => {
   const defaultCenter = startPoint
     ? [startPoint.lat, startPoint.lng]
     : [51.505, -0.09];
@@ -67,4 +82,6 @@ export default function MapView({ startPoint, onMapClick, route }) {
       )}
     </div>
   );
-}
+};
+
+export default MapView;

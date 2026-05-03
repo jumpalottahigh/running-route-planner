@@ -2,14 +2,23 @@ import { useState, useCallback } from 'react'
 import { generateCircularRoute } from '../services/routeService'
 import { distanceToMeters } from '../utils/formatUtils'
 
-export function useRoute() {
-  const [route, setRoute] = useState(null)
+interface UseRouteReturn {
+  route: Route | null
+  loading: boolean
+  error: string | null
+  generate: (params: GenerateRouteParams) => Promise<void>
+  regenerate: (params: GenerateRouteParams) => Promise<void>
+  clearRoute: () => void
+}
+
+export function useRoute(): UseRouteReturn {
+  const [route, setRoute] = useState<Route | null>(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
   const [seed, setSeed] = useState(Math.floor(Math.random() * 9999))
 
   const generate = useCallback(
-    async ({ lat, lng, distance, unit, profile }) => {
+    async ({ lat, lng, distance, unit, profile }: GenerateRouteParams) => {
       setLoading(true)
       setError(null)
       try {
@@ -23,7 +32,7 @@ export function useRoute() {
         })
         setRoute(result)
       } catch (err) {
-        setError(err.message)
+        setError((err as Error).message || 'Failed to generate route')
         setRoute(null)
       } finally {
         setLoading(false)
@@ -32,7 +41,7 @@ export function useRoute() {
     [seed]
   )
 
-  const regenerate = useCallback(async (params) => {
+  const regenerate = useCallback(async (params: GenerateRouteParams) => {
     const newSeed = Math.floor(Math.random() * 9999)
     setSeed(newSeed)
     setLoading(true)
@@ -48,7 +57,7 @@ export function useRoute() {
       })
       setRoute(result)
     } catch (err) {
-      setError(err.message)
+      setError((err as Error).message || 'Failed to regenerate route')
     } finally {
       setLoading(false)
     }

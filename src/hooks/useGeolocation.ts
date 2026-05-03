@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react'
 
-export function useGeolocation() {
-  const [position, setPosition] = useState(null)
+interface UseGeolocationReturn {
+  position: Position | null
+  loading: boolean
+  error: string | null
+}
+
+export function useGeolocation(): UseGeolocationReturn {
+  const [position, setPosition] = useState<Position | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -22,8 +28,7 @@ export function useGeolocation() {
         console.warn('Geolocation error:', err.message)
         let message = err.message
         if (err.code === 1) {
-          message =
-            'Location permission denied. Tap the map to set your start point.'
+          message = 'Location permission denied. Tap the map to set your start point.'
         } else if (err.code === 2) {
           message = 'Unable to retrieve location. Check your connection.'
         } else if (err.code === 3) {

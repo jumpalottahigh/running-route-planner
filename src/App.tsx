@@ -1,18 +1,20 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, FC } from 'react'
 import MapView from './components/Map/MapView'
 import Sidebar from './components/Sidebar/Sidebar'
 import { useGeolocation } from './hooks/useGeolocation'
 import { useRoute } from './hooks/useRoute'
 
-export default function App() {
+const App: FC = () => {
   const { position } = useGeolocation()
   const { route, loading, error, generate, regenerate, clearRoute } = useRoute()
 
-  const [startPoint, setStartPoint] = useState(null)
+  const [startPoint, setStartPoint] = useState<Position | null>(null)
   const [distance, setDistance] = useState(5)
-  const [unit, setUnit] = useState('km')
+  const [unit, setUnit] = useState<'km' | 'mi'>('km')
   const [pace, setPace] = useState(5.5)
-  const [profile, setProfile] = useState('foot-walking')
+  const [profile, setProfile] = useState<'foot-walking' | 'foot-hiking'>(
+    'foot-walking'
+  )
 
   // Set start from geolocation when available (once)
   useEffect(() => {
@@ -22,7 +24,7 @@ export default function App() {
   }, [position, startPoint])
 
   const handleMapClick = useCallback(
-    (pos) => {
+    (pos: Position) => {
       setStartPoint(pos)
       clearRoute()
     },
@@ -31,28 +33,30 @@ export default function App() {
 
   const handleGenerate = useCallback(() => {
     if (!startPoint) return
-    generate({
+    const params: GenerateRouteParams = {
       lat: startPoint.lat,
       lng: startPoint.lng,
       distance,
       unit,
-      profile
-    })
+      profile: profile as 'foot-walking' | 'foot-hiking' | 'cycling-regular'
+    }
+    generate(params)
   }, [startPoint, distance, unit, profile, generate])
 
   const handleRegenerate = useCallback(() => {
     if (!startPoint) return
-    regenerate({
+    const params: GenerateRouteParams = {
       lat: startPoint.lat,
       lng: startPoint.lng,
       distance,
       unit,
-      profile
-    })
+      profile: profile as 'foot-walking' | 'foot-hiking' | 'cycling-regular'
+    }
+    regenerate(params)
   }, [startPoint, distance, unit, profile, regenerate])
 
   const handleUnitChange = useCallback(
-    (newUnit) => {
+    (newUnit: 'km' | 'mi') => {
       if (newUnit === unit) return
       if (newUnit === 'mi') {
         setDistance((prev) => +(prev / 1.60934).toFixed(1))
@@ -65,7 +69,7 @@ export default function App() {
   )
 
   return (
-    <div className='app-layout'>
+    <div className="app-layout">
       <Sidebar
         distance={distance}
         unit={unit}
@@ -89,3 +93,5 @@ export default function App() {
     </div>
   )
 }
+
+export default App

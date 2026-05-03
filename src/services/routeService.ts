@@ -1,22 +1,28 @@
 const ORS_BASE = 'https://api.openrouteservice.org/v2'
 const ORS_API_KEY = import.meta.env.VITE_ORS_API_KEY
 
-/**
- * Generate a circular running route using OpenRouteService.
- * @param {object} params
- * @param {number} params.lat - Start latitude
- * @param {number} params.lng - Start longitude
- * @param {number} params.distanceMeters - Target round-trip distance in meters
- * @param {number} params.seed - Random seed for different routes
- * @param {'foot-walking'|'foot-hiking'|'cycling-regular'} params.profile
- */
+interface GenerateRouteInput {
+  lat: number
+  lng: number
+  distanceMeters: number
+  seed: number
+  profile: 'foot-walking' | 'foot-hiking' | 'cycling-regular'
+}
+
+interface RouteResult {
+  coordinates: [number, number][]
+  distanceMeters: number
+  durationSeconds: number
+  geojson: any
+}
+
 export async function generateCircularRoute({
   lat,
   lng,
   distanceMeters,
   seed,
   profile = 'foot-walking'
-}) {
+}: GenerateRouteInput): Promise<RouteResult> {
   if (!ORS_API_KEY || !ORS_API_KEY.trim()) {
     throw new Error('API key not configured. Check your .env.local file.')
   }
@@ -67,7 +73,7 @@ export async function generateCircularRoute({
   const summary = feature.properties?.summary
 
   return {
-    coordinates: coords, // [[lng, lat], ...]
+    coordinates: coords,
     distanceMeters: summary?.distance ?? 0,
     durationSeconds: summary?.duration ?? 0,
     geojson: feature

@@ -1,6 +1,13 @@
+import type { FC } from 'react';
 import { formatDistance, estimateDuration, estimateCalories } from '../../utils/formatUtils';
 
-export default function RouteStats({ route, unit, pace }) {
+interface RouteStatsProps {
+  route: Route | null;
+  unit: 'km' | 'mi';
+  pace: number;
+}
+
+const RouteStats: FC<RouteStatsProps> = ({ route, unit, pace }) => {
   if (!route) return null;
 
   const dist = formatDistance(route.distanceMeters, unit);
@@ -29,4 +36,7 @@ export default function RouteStats({ route, unit, pace }) {
       </div>
     </div>
   );
-}
+};
+
+export default RouteStats;
+
