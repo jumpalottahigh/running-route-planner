@@ -189,12 +189,12 @@ running-route-planner/
 - [x] Multiple route suggestions (generate 3 options)
 - [x] Route color gradient (distance-based, green→blue)
 
-### Phase 3 — Advanced
+### Phase 3 — Advanced (Partial) ✅ COMPLETE
 
-- [ ] GPX export
-- [ ] Shareable URL
-- [ ] Saved routes history (localStorage)
-- [ ] Offline map tiles (PWA)
+- [x] Shareable URL (encode params in hash, restore on load)
+- [x] Saved routes history (localStorage with load/delete)
+- [ ] GPX export (deferred)
+- [ ] Offline map tiles (PWA) (deferred)
 
 ---
 
